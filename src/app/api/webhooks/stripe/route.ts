@@ -1,6 +1,5 @@
 import prisma from "@/app/lib/db";
 import { stripe } from "@/app/lib/stripe";
-import { redirect } from "next/navigation";
 import Stripe from "stripe";
 
 const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -52,8 +51,6 @@ export async function POST(req: Request) {
               isPremium: true,
             },
           });
-
-          redirect("/");
         }
 
         break;

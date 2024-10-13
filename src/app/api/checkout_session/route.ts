@@ -1,4 +1,4 @@
-//import { requireUser } from "@/app/lib/hooks";
+import { requireUser } from "@/app/lib/hooks";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -11,14 +11,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   try {
-    //const authSession = await requireUser();
+    const authSession = await requireUser();
 
-    // if (!authSession) {
-    //   return NextResponse.json(
-    //     { error: "User not authenticated" },
-    //     { status: 401 }
-    //   );
-    // }
+    if (!authSession) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 }
+      );
+    }
 
     const session = await stripe.checkout.sessions.create({
       line_items: [
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       success_url: `${req.headers.get("origin")}/?success=true`,
       cancel_url: `${req.headers.get("origin")}/?canceled=true`,
       automatic_tax: { enabled: true },
-      //customer_email: authSession?.user?.email as string,
+      customer_email: authSession?.user?.email as string,
     });
 
     return NextResponse.redirect(session.url as string, 303);
