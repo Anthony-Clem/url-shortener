@@ -12,6 +12,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: Request) {
   try {
     const authSession = await requireUser();
+
+    if (!authSession) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 }
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
