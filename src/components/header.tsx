@@ -11,6 +11,7 @@ import {
 } from "./ui/dropdown-menu";
 import { signOut } from "@/app/lib/auth";
 import MobileMenu from "./mobile-menu";
+import Image from "next/image";
 
 const Header = async () => {
   const session = await requireUser();
@@ -27,7 +28,7 @@ const Header = async () => {
                 size="icon"
                 className="rounded-full hover:ring-2 ring-indigo-500 transition"
               >
-                <img
+                <Image
                   src={session?.user?.image as string}
                   alt="profile image"
                   width={20}

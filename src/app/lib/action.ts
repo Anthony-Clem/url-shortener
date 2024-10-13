@@ -6,7 +6,6 @@ import prisma from "./db";
 import { generateRandomCode, requireUser } from "./hooks";
 import { revalidatePath } from "next/cache";
 import { signOut } from "./auth";
-import { Prisma } from "@prisma/client";
 
 type UrlData = {
   code: string;

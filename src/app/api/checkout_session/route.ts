@@ -27,15 +27,22 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.redirect(session.url as string, 303);
-  } catch (err: any) {
-    const error: StripeError = {
-      message: err.message || "An unknown error occurred",
-      statusCode: err.statusCode || 500,
+  } catch (err) {
+    let error: StripeError = {
+      message: "An unknown error occurred",
     };
+
+    // Check if the error is a Stripe error
+    if (err instanceof Stripe.errors.StripeError) {
+      error = {
+        message: err.message,
+        statusCode: err.statusCode || 500,
+      };
+    }
 
     return NextResponse.json(
       { error: error.message },
-      { status: error.statusCode }
+      { status: error.statusCode || 500 }
     );
   }
 }
