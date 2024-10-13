@@ -9,7 +9,7 @@ type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
 // Extend the global object to hold the Prisma client instance
 declare global {
-  var prisma: PrismaClientSingleton | undefined;
+  const prisma: PrismaClientSingleton | undefined;
 }
 
 // Initialize the Prisma client
