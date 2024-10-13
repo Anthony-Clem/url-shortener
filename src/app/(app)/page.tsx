@@ -12,8 +12,9 @@ export default async function Home() {
       <p className="text-sm max-w-[700px] mx-auto text-gray-700">
         Do you have long, cluttered URLs that are hard to share or remember?
         ShortPath is your easy, fast, and reliable solution for creating clean,
-        custom links. Whether you're sharing on social media, tracking
-        campaigns, or just want to keep things simple, we've got you covered.
+        custom links. Whether you&apos;re sharing on social media, tracking
+        campaigns, or just want to keep things simple, we&apos;ve got you
+        covered.
       </p>
       <ShortenUrlForm />
     </div>

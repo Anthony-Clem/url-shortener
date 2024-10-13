@@ -18,25 +18,20 @@ const GeneratedUrl = ({
   generatedUrl: GeneratedUrlProps | undefined;
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
-  const [copyUrl, setCopyUrl] = useState<string>("");
 
   const handleCopyUrl = (url: string) => {
     if (!url) return;
 
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
-      setCopyUrl(url);
-      setTimeout(() => {
-        setCopied(false);
-        setCopyUrl("");
-      }, 3000);
+      setTimeout(() => setCopied(false), 3000);
     });
   };
 
   return (
     <div className="flex items-center mt-3">
       <Link
-        href={generatedUrl?.newUrl as string}
+        href={generatedUrl?.newUrl || "#"}
         target="_blank"
         className="truncate flex-1 text-sm text-muted-foreground text-left px-3 hover:text-black hover:underline transition"
       >
@@ -49,7 +44,7 @@ const GeneratedUrl = ({
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => handleCopyUrl(generatedUrl?.newUrl as string)}
+                onClick={() => handleCopyUrl(generatedUrl?.newUrl || "")}
               >
                 {copied ? (
                   <IoIosCheckmark className="size-6 text-green-500" />
@@ -66,7 +61,7 @@ const GeneratedUrl = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" asChild>
+              <Button variant="ghost" size="icon">
                 <Link href="/analytics">
                   <FaEye className="size-4" />
                 </Link>

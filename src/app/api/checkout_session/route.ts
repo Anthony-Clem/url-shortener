@@ -2,6 +2,11 @@ import { requireUser } from "@/app/lib/hooks";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
+type StripeError = {
+  message: string;
+  statusCode?: number;
+};
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
@@ -23,9 +28,14 @@ export async function POST(req: Request) {
 
     return NextResponse.redirect(session.url as string, 303);
   } catch (err: any) {
+    const error: StripeError = {
+      message: err.message || "An unknown error occurred",
+      statusCode: err.statusCode || 500,
+    };
+
     return NextResponse.json(
-      { error: err.message },
-      { status: err.statusCode || 500 }
+      { error: error.message },
+      { status: error.statusCode }
     );
   }
 }

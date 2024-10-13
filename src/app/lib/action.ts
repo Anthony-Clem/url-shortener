@@ -6,6 +6,14 @@ import prisma from "./db";
 import { generateRandomCode, requireUser } from "./hooks";
 import { revalidatePath } from "next/cache";
 import { signOut } from "./auth";
+import { Prisma } from "@prisma/client";
+
+type UrlData = {
+  code: string;
+  originalLink: string;
+  newUrl: string;
+  userId?: string;
+};
 
 export const logout = async () => {
   await signOut();
@@ -19,7 +27,6 @@ export const shortenUrl = async ({ url }: { url: string }) => {
   });
 
   if (submission.status !== "success") {
-    const errorMessages = submission.reply().error;
     return { error: submission.reply().error };
   }
 
@@ -29,7 +36,7 @@ export const shortenUrl = async ({ url }: { url: string }) => {
 
   const newUrl = process.env.NEXT_PUBLIC_BASE_URL + `/${code}`;
 
-  const urlData: any = {
+  const urlData: UrlData = {
     code,
     originalLink: submission.value.url,
     newUrl,

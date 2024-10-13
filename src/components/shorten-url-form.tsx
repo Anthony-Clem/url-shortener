@@ -15,7 +15,6 @@ import { GeneratedUrlProps } from "@/app/lib/types";
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from "./ui/dialog";
 import { FaCrown } from "react-icons/fa";
 import { toast } from "sonner";
-import { Session } from "next-auth";
 
 const ShortenUrlForm = () => {
   useEffect(() => {
